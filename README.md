@@ -8,14 +8,14 @@
 
 # PhoGPT: Generative Pre-training for Vietnamese 
 
-We open-source a state-of-the-art 7.5B-parameter generative model series named PhoGPT for Vietnamese, which includes the base pre-trained monolingual model **PhoGPT-7B5** and its instruction-following variant **PhoGPT-7B5-Instruct**. More details about the general architecture and experimental results of PhoGPT can be found in our [technical report](arxiv):
+We open-source a state-of-the-art 7.5B-parameter generative model series named PhoGPT for Vietnamese, which includes the base pre-trained monolingual model **PhoGPT-7B5** and its instruction-following variant **PhoGPT-7B5-Instruct**. More details about the general architecture and experimental results of PhoGPT can be found in our [technical report](https://arxiv.org/abs/2311.02945):
 
 ```
 @article{PhoGPT,
 title     = {{PhoGPT: Generative Pre-training for Vietnamese}},
 author    = {Dat Quoc Nguyen and Linh The Nguyen and Chi Tran and Dung Ngoc Nguyen and Nhung Nguyen and Thien Huu Nguyen and Dinh Phung and Hung Bui},
 journal   = {arXiv preprint},
-volume    = {arXiv:},
+volume    = {arXiv:2311.02945},
 year      = {2023}
 }
 ```
@@ -24,7 +24,7 @@ year      = {2023}
 
 PhoGPT is a [Transformer](https://arxiv.org/abs/1706.03762) decoder-based model,  which incorporates (Triton) [flash attention](https://github.com/Dao-AILab/flash-attention) and [ALiBi](https://arxiv.org/abs/2108.12409) for context length extrapolation. Utilizing the [Mosaicml llm-foundry library](https://github.com/mosaicml/llm-foundry), we pre-train PhoGPT from scratch on a 41GB pre-training corpus of Vietnamese texts. This pre-training corpus consists of 1GB of Wikipedia texts and a 40GB deduplicated variant of the ["binhvq" news dataset](https://github.com/binhvq/news-corpus)  (version 21/05/2021).
 
-We fine-tune the instruction-following variant of PhoGPT using a dataset consisting of 150K Vietnamese prompt and response pairs. This dataset is constructed by concatenating the following sources: (i) 67K pairs from the Vietnamese subset of [Bactrian-X](https://huggingface.co/datasets/MBZUAI/Bactrian-X); (ii) 40K [ShareGPT](https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split_no_imsorry.json) pairs without code and math, translated from English to Vietnamese by using [VinAI Translate](https://github.com/VinAIResearch/VinAI_Translate); (iii) 40K prompts covering hate, offense, toxicity, and safety awareness, largely including Vietnamese-translated ones; and (iv) 1000 pairs for context-based question answering, 500 for poem writing, 500 for essay writing, 500 for spelling correction, and 500 for single-document summarization.
+We fine-tune the pre-trained PhoGPT for instruction following, using a dataset consisting of 150K Vietnamese prompt and response pairs. This dataset is constructed by concatenating the following sources: (i) 67K pairs from the Vietnamese subset of [Bactrian-X](https://huggingface.co/datasets/MBZUAI/Bactrian-X); (ii) 40K [ShareGPT](https://huggingface.co/datasets/anon8231489123/ShareGPT_Vicuna_unfiltered/resolve/main/ShareGPT_V3_unfiltered_cleaned_split_no_imsorry.json) pairs without code and math, translated from English to Vietnamese by using [VinAI Translate](https://github.com/VinAIResearch/VinAI_Translate); (iii) 40K prompts covering hate, offense, toxicity, and safety awareness, largely including Vietnamese-translated ones; and (iv) 1000 pairs for context-based question answering, 500 for poem writing, 500 for essay writing, 500 for spelling correction, and 500 for single-document summarization.
 
 ## Evaluation <a name="evaluation"></a>
 
@@ -94,10 +94,10 @@ PhoGPT can also run with [vLLM](https://github.com/vllm-project/vllm). See [vLLM
 
 ## Fine-tuning the model <a name="finetuning"></a>
 
-See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts/train/README.md#llmfinetuning) for more details.
+See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts/train/README.md#llmfinetuning) for more details. To fully fine-tune `vinai/PhoGPT-7B5` or `vinai/PhoGPT-7B5-Instruct` on a single GPU A100 with 40GB memory, it is advisable to employ the `decoupled_lionw` optimizer with a `device_train_microbatch_size` set to 1.
 
 ## Limitations <a name="limitations"></a>
 
-PhoGPT has certain limitations. For example, it is not good at tasks involving reasoning, coding or mathematics. Users should be cautious when interacting with PhoGPT that can produce factually incorrect output.
+PhoGPT has certain limitations. For example, it is not good at tasks involving reasoning, coding or mathematics. PhoGPT may sometimes generate harmful, hate speech, biased responses, or answer unsafe questions. Users should be cautious when interacting with PhoGPT that can produce factually incorrect output.
 
 ## [License](https://github.com/VinAIResearch/PhoGPT/blob/main/LICENSE)
