@@ -36,10 +36,10 @@ As shown in the result figure above, our PhoGPT-7B5-Instruct is strongly competi
 
 ## Model download <a name="download"></a>
 
-Model | Download 
----|---
-`vinai/PhoGPT-7B5` | https://huggingface.co/vinai/PhoGPT-7B5
-`vinai/PhoGPT-7B5-Instruct` | https://huggingface.co/vinai/PhoGPT-7B5-Instruct
+Model | Download | Note
+---|---|---
+`vinai/PhoGPT-7B5` | https://huggingface.co/vinai/PhoGPT-7B5 | Pre-trained model
+`vinai/PhoGPT-7B5-Instruct` | https://huggingface.co/vinai/PhoGPT-7B5-Instruct | Instruction following model: `PROMPT = "### Câu hỏi:\n{instruction}\n\n### Trả lời:"`  
 
 
 ## Run the model <a name="inference"></a>
@@ -47,6 +47,7 @@ Model | Download
 ### with `transformers`
 
 ```python
+import torch
 from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer  
   
 model_path = "vinai/PhoGPT-7B5-Instruct"  
