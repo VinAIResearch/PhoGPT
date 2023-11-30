@@ -65,10 +65,21 @@ model.eval()
   
 tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)  
   
-PROMPT = "### Câu hỏi:\n{instruction}\n\n### Trả lời:"  
-  
-input_prompt = PROMPT.format_map(  
-    {"instruction": "Làm thế nào để cải thiện kỹ năng quản lý thời gian?"}  
+PROMPT_TEMPLATE = "### Câu hỏi:\n{instruction}\n\n### Trả lời:"  
+
+# Some instruction examples
+# instruction = "Viết bài văn nghị luận xã hội về {topic}"
+# instruction = "Viết bản mô tả công việc cho vị trí {job_title}"
+# instruction = "Sửa lỗi chính tả:\n{sentence_or_paragraph}"
+# instruction = "Dựa vào văn bản sau đây:\n{text}\nHãy trả lời câu hỏi: {question}"
+# instruction = "Tóm tắt văn bản:\n{text}"
+
+
+instruction = "Viết bài văn nghị luận xã hội về an toàn giao thông"
+# instruction = "Sửa lỗi chính tả:\nTriệt phá băng nhóm kướp ô tô, sử dụng \"vũ khí nóng\""
+
+input_prompt = PROMPT_TEMPLATE.format_map(  
+    {"instruction": instruction}  
 )  
   
 input_ids = tokenizer(input_prompt, return_tensors="pt")  
