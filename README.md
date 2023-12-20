@@ -100,9 +100,9 @@ response = tokenizer.batch_decode(outputs, skip_special_tokens=True)[0]
 response = response.split("### Trả lời:")[1]
 ```
 
-### with vLLM
+### with vLLM, Text Generation Inference & llama.cpp
 
-PhoGPT can also run with [vLLM](https://github.com/vllm-project/vllm). See [vLLM docs](https://vllm.readthedocs.io/en/latest/getting_started/quickstart.html) for more details. 
+PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-project/vllm) and [Text Generation Inference](https://github.com/huggingface/text-generation-inference). Users can also employ [llama.cpp](https://github.com/ggerganov/llama.cpp) to run PhoGPT, as it belongs to the MPT model family that is supported by [llama.cpp](https://github.com/ggerganov/llama.cpp).
 
 ## Fine-tuning the model <a name="finetuning"></a>
 
