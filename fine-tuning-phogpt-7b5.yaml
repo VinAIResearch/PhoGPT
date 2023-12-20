@@ -1,0 +1,98 @@
+max_seq_len: 2048
+global_seed: 1337
+
+# Run Name
+run_name: fine-tuning-phogpt-7b5
+
+# Model
+model:
+  name: hf_causal_lm
+  pretrained: true
+  pretrained_model_name_or_path: vinai/PhoGPT-7B5
+  config_overrides:
+    max_seq_len: ${max_seq_len}
+    attn_config:
+      attn_impl: triton
+      alibi: true
+      prefix_lm: false
+      attn_uses_sequence_id: false
+
+# Tokenizer
+tokenizer:
+  name: vinai/PhoGPT-7B5
+  kwargs:
+    model_max_length: ${max_seq_len}
+
+# Dataloaders
+train_loader:
+  name: finetuning
+  dataset:
+    hf_name: path/to/sample_instruction_following_dataset
+    split: train
+    shuffle: true
+    max_seq_len: ${max_seq_len}
+    shuffle_seed: ${global_seed}
+    decoder_only_format: true
+    allow_pad_trimming: false
+  drop_last: true
+  num_workers: 8
+
+# Optimization
+scheduler:
+  name: cosine_with_warmup
+  t_warmup: 200ba # To be adjusted, for example: 1/15 the total number of training steps
+  alpha_f: 0.1
+
+optimizer:
+  name: decoupled_lionw
+  lr: 1e-5 # To be adjusted
+  betas:
+  - 0.9
+  - 0.98
+  weight_decay: 1e-7
+  eps: 1e-07
+
+algorithms:
+  gradient_clipping:
+    clipping_type: norm
+    clipping_threshold: 1.0
+
+max_duration: 3ep
+eval_interval: 1
+eval_first: false
+eval_subset_num_batches: -1
+global_train_batch_size: 64 # To be adjusted, for example: 16 * the number of GPUs
+
+# System
+seed: ${global_seed}
+device_eval_batch_size: 1
+device_train_microbatch_size: 1
+precision: amp_bf16
+
+# FSDP
+fsdp_config:
+  sharding_strategy: FULL_SHARD
+  mixed_precision: PURE
+  activation_checkpointing: false
+  activation_checkpointing_reentrant: false
+  activation_cpu_offload: false
+  limit_all_gathers: true
+  verbose: false
+
+# Logging
+progress_bar: false
+log_to_console: true
+console_log_interval: 10ba
+
+callbacks:
+  speed_monitor:
+    window_size: 10
+  lr_monitor: {}
+  memory_monitor: {}
+  runtime_estimator: {}
+
+# Checkpoint to local filesystem or remote object store
+save_interval: 1ep
+save_num_checkpoints_to_keep: 3  # Important, this cleans up checkpoints saved to DISK
+save_folder: path/to/your/saving/folder
+
