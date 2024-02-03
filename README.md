@@ -96,7 +96,7 @@ PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-pr
 
 ## Fine-tuning the model <a name="finetuning"></a>
 
-See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts/train/README.md#llmfinetuning) for more details. To fully fine-tune `vinai/PhoGPT-7B5` or `vinai/PhoGPT-7B5-Instruct` on a single GPU A100 with 40GB memory, it is advisable to employ the `decoupled_lionw` optimizer with a `device_train_microbatch_size` set to 1. An example of model finetuning YAML configuration can be found in `fine-tuning-phogpt-7b5.yaml`.
+See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts/train/README.md#llmfinetuning) for more details. To fully fine-tune PhoGPT on a single GPU A100 with 40GB memory, it is advisable to employ the `decoupled_lionw` optimizer with a `device_train_microbatch_size` set to 1. An example of model finetuning YAML configuration can be found in `fine-tuning-phogpt.yaml`.
 
 ## Limitations <a name="limitations"></a>
 
