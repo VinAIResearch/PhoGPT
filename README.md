@@ -25,7 +25,7 @@ year      = {2023}
 
 ## Model download <a name="download"></a>
 
-Model | Type | Model Size | Context length | Vocab size | Training data size | Prompt template
+Model | Type | Model Size | Context length | Vocab size | Training data size | Note
 ---|--|---|---|---|---|---
 [`vinai/PhoGPT-4B`](https://huggingface.co/vinai/PhoGPT-4B) | Base | 3.7B | 8192 | 20480 | 484GB
 [`vinai/PhoGPT-4B-Chat`](https://huggingface.co/vinai/PhoGPT-4B-Chat) |Instruction following & Chat|3.7B| 8192| 20480 |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
