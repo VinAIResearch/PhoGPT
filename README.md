@@ -30,8 +30,6 @@ Model | Type | Model Size | Context length | Vocab size | Training data size | N
 ---|--|---|---|---|---|---
 [`vinai/PhoGPT-4B`](https://huggingface.co/vinai/PhoGPT-4B) | Base | 3.7B | 8192 | 20K | 482GB of texts
 [`vinai/PhoGPT-4B-Chat`](https://huggingface.co/vinai/PhoGPT-4B-Chat) |Instruction following & Chat|3.7B| 8192| 20K |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
-`vinai/PhoGPT-7B5` | Base | 7.5B | 2048 | 250K | 41GB of texts
-`vinai/PhoGPT-7B5-Instruct` |Instruction following|7.5B| 2048| 250K |150K instructional prompt and response pairs| `PROMPT_TEMPLATE = "### Câu hỏi:\n{instruction}\n\n### Trả lời:"`  
 
 ## Limitations <a name="limitations"></a>
 
