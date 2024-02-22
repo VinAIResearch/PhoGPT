@@ -28,8 +28,8 @@ year      = {2023}
 
 Model | Type | Model Size | Context length | Vocab size | Training data size | Note
 ---|--|---|---|---|---|---
-[`vinai/PhoGPT-4B`](https://huggingface.co/vinai/PhoGPT-4B) | Base | 3.7B | 8192 | 20K | 482GB of texts | Loading "PhoGPT-4B" or "PhoGPT-4B-Chat" in float16 takes 7GB of GPU memory
-[`vinai/PhoGPT-4B-Chat`](https://huggingface.co/vinai/PhoGPT-4B-Chat) |Instruction following & Chat|3.7B| 8192| 20K |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
+[`vinai/PhoGPT-4B-v0.1`](https://huggingface.co/vinai/PhoGPT-4B-v0.1) | Base | 3.7B | 8192 | 20K | 482GB of texts | Loading "PhoGPT-4B-v0.1" or "PhoGPT-4B-Chat-v0.1" in float16 takes 7GB of GPU memory
+[`vinai/PhoGPT-4B-Chat-v0.1`](https://huggingface.co/vinai/PhoGPT-4B-Chat-v0.1) |Instruction following & Chat|3.7B| 8192| 20K |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
 
 ## Limitations <a name="limitations"></a>
 
@@ -50,7 +50,7 @@ PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-pr
 import torch
 from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
-model_path = "vinai/PhoGPT-4B-Chat"  
+model_path = "vinai/PhoGPT-4B-Chat-v0.1"  
 
 config = AutoConfig.from_pretrained(model_path, trust_remote_code=True)  
 config.init_device = "cuda"
