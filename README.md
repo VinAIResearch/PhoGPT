@@ -105,7 +105,10 @@ input_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_gener
 
 ## Fine-tuning the model <a name="finetuning"></a>
 
-See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts/train/README.md#llmfinetuning) for more details. To fully fine-tune PhoGPT on a single GPU A100 with 40GB memory, users can find an example of model finetuning YAML configuration at [`fine-tuning-phogpt.yaml`](https://github.com/VinAIResearch/PhoGPT/blob/main/fine-tuning-phogpt.yaml).
+See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts/train/README.md#llmfinetuning) for details. To fully fine-tune PhoGPT, users can find an example of model finetuning YAML configuration at [`fine-tuning-phogpt.yaml`](https://github.com/VinAIResearch/PhoGPT/blob/main/fine-tuning-phogpt.yaml). Users can also find the `sample_instruction_following_dataset` folder as an example of an instruction-following dataset.
+
+- To install `llm-foundry`, see Section "Installation" in [https://github.com/mosaicml/llm-foundry](https://github.com/mosaicml/llm-foundry).
+- Run: `cd llm-foundry/scripts/train/` and then `composer --world_size <number_of_GPUs> train.py <path_to_yaml_configuration_file>` (e.g. `composer --world_size 1 train.py fine-tuning-phogpt.yaml`). 
 
 ## Limitations <a name="limitations"></a>
 
