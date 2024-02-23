@@ -1,9 +1,8 @@
 - [Introduction](#introduction)
 - [Model download](#download)
-- [Limitations](#limitations)
 - [Run the model](#inference)
 - [Fine-tuning the model](#finetuning)
-
+- [Limitations](#limitations)
 
 # PhoGPT: Generative Pre-training for Vietnamese <a name="introduction"></a>
 
@@ -31,15 +30,11 @@ Model | Type | Model Size | Context length | Vocab size | Training data size | N
 [`vinai/PhoGPT-4B-v0.1`](https://huggingface.co/vinai/PhoGPT-4B-v0.1) | Base | 3.7B | 8192 | 20K | 482GB of texts | Loading "PhoGPT-4B-v0.1" or "PhoGPT-4B-Chat-v0.1" in float16 takes 7GB of GPU memory
 [`vinai/PhoGPT-4B-Chat-v0.1`](https://huggingface.co/vinai/PhoGPT-4B-Chat-v0.1) |Instruction following & Chat|3.7B| 8192| 20K |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
 
-## Limitations <a name="limitations"></a>
-
-PhoGPT has certain limitations. For example, it is not good at tasks involving reasoning, coding or mathematics. PhoGPT may generate harmful, hate speech, biased responses, or answer unsafe questions. Users should be cautious when interacting with PhoGPT that can produce factually incorrect output.
-
 ## Run the model <a name="inference"></a>
 
 ### with vLLM, Text Generation Inference & llama.cpp
 
-PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-project/vllm) and [Text Generation Inference](https://github.com/huggingface/text-generation-inference). Users can also employ [llama.cpp](https://github.com/ggerganov/llama.cpp) to run PhoGPT, as it belongs to the MPT model family that is supported by [llama.cpp](https://github.com/ggerganov/llama.cpp).
+PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-project/vllm), [Text Generation Inference](https://github.com/huggingface/text-generation-inference) and [llama.cpp](https://github.com/ggerganov/llama.cpp).
 
 ### with pure `transformers`
 
@@ -104,9 +99,32 @@ messages = [
 ]
 
 # Using apply_chat_template
+tokenizer = AutoTokenizer.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", trust_remote_code=True)
 input_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
 ```
 
 ## Fine-tuning the model <a name="finetuning"></a>
 
 See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts/train/README.md#llmfinetuning) for more details. To fully fine-tune PhoGPT on a single GPU A100 with 40GB memory, users can find an example of model finetuning YAML configuration at [`fine-tuning-phogpt.yaml`](https://github.com/VinAIResearch/PhoGPT/blob/main/fine-tuning-phogpt.yaml).
+
+## Limitations <a name="limitations"></a>
+
+PhoGPT has certain limitations. For example, it is not good at tasks involving reasoning, coding or mathematics. PhoGPT may generate harmful, hate speech, biased responses, or answer unsafe questions. Users should be cautious when interacting with PhoGPT that can produce factually incorrect output.
+
+## License
+
+```
+Copyright (c) 2023 VinAI Research
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
