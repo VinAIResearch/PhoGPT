@@ -32,11 +32,23 @@ Model | Type | Model Size | Context length | Vocab size | Training data size | N
 
 ## Run the model <a name="inference"></a>
 
-### with vLLM, Text Generation Inference & llama.cpp
+### With vLLM, Text Generation Inference & llama.cpp
 
 PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-project/vllm), [Text Generation Inference](https://github.com/huggingface/text-generation-inference) and [llama.cpp](https://github.com/ggerganov/llama.cpp).
 
-### with pure `transformers`
+#### With llama.cpp
+
+- Compile [llama.cpp](https://github.com/ggerganov/llama.cpp) 
+- Install Python dependencies from llama.cpp
+```
+cd llama.cpp
+python3 -m pip install -r requirements.txt
+```
+- Convert the model to GGUF FP16 format: `python3 convert-hf-to-gguf.py <path_to_PhoGPT-4B-Chat-v0.1_model> --outfile ./PhoGPT-4B-Chat-v0.1.gguf`
+- (Optional) Quantize the model to 4-bits (using Q4_K_M method): `./quantize ./PhoGPT-4B-Chat-v0.1.gguf ./PhoGPT-4B-Chat-v0.1-Q4_K_M.gguf Q4_K_M`
+- Start inference on a gguf model: `./main -m ./PhoGPT-4B-Chat-v0.1-Q4_K_M.gguf -n 128 -p "### Câu hỏi: Bạn là ai\n### Trả lời:"`
+
+### With pure `transformers`
 
 #### Instruction following
 
@@ -101,6 +113,23 @@ messages = [
 # Using apply_chat_template
 tokenizer = AutoTokenizer.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", trust_remote_code=True)
 input_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+```
+
+#### 4/8-bit quantization with `bitsandbytes`
+
+```python
+import torch
+from transformers import BitsAndBytesConfig, AutoConfig, AutoModelForCausalLM, AutoTokenizer
+
+config = AutoConfig.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", trust_remote_code=True)  
+config.init_device = "cuda"
+
+# 4-bit quantization
+quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
+model_4bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", quantization_config=quantization_config, config=config, trust_remote_code=True)
+
+# 8-bit quantization
+model_8bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", config=config, load_in_8bit=True)
 ```
 
 ## Fine-tuning the model <a name="finetuning"></a>
