@@ -44,7 +44,7 @@ PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-pr
 cd llama.cpp
 python3 -m pip install -r requirements.txt
 ```
-- Convert the model to GGUF FP16 format: `python3 convert-hf-to-gguf.py <path_to_PhoGPT-4B-Chat-v0.1_model> --outfile ./PhoGPT-4B-Chat-v0.1.gguf`
+- Convert the model to gguf FP16 format: `python3 convert-hf-to-gguf.py <path_to_PhoGPT-4B-Chat-v0.1_model> --outfile ./PhoGPT-4B-Chat-v0.1.gguf`
 - (Optional) Quantize the model to 4-bits (using Q4_K_M method): `./quantize ./PhoGPT-4B-Chat-v0.1.gguf ./PhoGPT-4B-Chat-v0.1-Q4_K_M.gguf Q4_K_M`
 - Start inference on a gguf model: `./main -m ./PhoGPT-4B-Chat-v0.1-Q4_K_M.gguf -n 128 -p "### Câu hỏi: Bạn là ai\n### Trả lời:"`
 
