@@ -8,7 +8,7 @@ run_name: fine-tuning-phogpt-4b
 model:
   name: hf_causal_lm
   pretrained: true
-  pretrained_model_name_or_path: vinai/PhoGPT-4B-v0.1
+  pretrained_model_name_or_path: vinai/PhoGPT-4B
   config_overrides:
     max_seq_len: ${max_seq_len}
     attn_config:
@@ -19,7 +19,7 @@ model:
 
 # Tokenizer
 tokenizer:
-  name: vinai/PhoGPT-4B-v0.1
+  name: vinai/PhoGPT-4B
   kwargs:
     model_max_length: ${max_seq_len}
 

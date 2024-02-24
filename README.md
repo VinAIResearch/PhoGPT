@@ -27,8 +27,8 @@ year      = {2023}
 
 Model | Type | Model Size | Context length | Vocab size | Training data size | Note
 ---|--|---|---|---|---|---
-[`vinai/PhoGPT-4B-v0.1`](https://huggingface.co/vinai/PhoGPT-4B-v0.1) | Base | 3.7B | 8192 | 20K | 482GB of texts | Loading "PhoGPT-4B-v0.1" or "PhoGPT-4B-Chat-v0.1" in float16 takes 7GB of GPU memory
-[`vinai/PhoGPT-4B-Chat-v0.1`](https://huggingface.co/vinai/PhoGPT-4B-Chat-v0.1) |Instruction following & Chat|3.7B| 8192| 20K |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
+[`vinai/PhoGPT-4B`](https://huggingface.co/vinai/PhoGPT-4B) | Base | 3.7B | 8192 | 20K | 482GB of texts | Loading "PhoGPT-4B" or "PhoGPT-4B-Chat" in float16 takes 7GB of GPU memory
+[`vinai/PhoGPT-4B-Chat`](https://huggingface.co/vinai/PhoGPT-4B-Chat) |Instruction following & Chat|3.7B| 8192| 20K |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
 
 ## Run the model <a name="inference"></a>
 
@@ -44,9 +44,9 @@ PhoGPT can run with inference engines, such as [vLLM](https://github.com/vllm-pr
 cd llama.cpp
 python3 -m pip install -r requirements.txt
 ```
-- Convert the model to gguf FP16 format: `python3 convert-hf-to-gguf.py <path_to_PhoGPT-4B-Chat-v0.1_model> --outfile ./PhoGPT-4B-Chat-v0.1.gguf`
-- (Optional) Quantize the model to 4-bits (using Q4_K_M method): `./quantize ./PhoGPT-4B-Chat-v0.1.gguf ./PhoGPT-4B-Chat-v0.1-Q4_K_M.gguf Q4_K_M`
-- Start inference on a gguf model: `./main -m ./PhoGPT-4B-Chat-v0.1-Q4_K_M.gguf -n 128 -p "### Câu hỏi: Bạn là ai\n### Trả lời:"`
+- Convert the model to gguf FP16 format: `python3 convert-hf-to-gguf.py <path_to_PhoGPT-4B-Chat_model> --outfile ./PhoGPT-4B-Chat.gguf`
+- (Optional) Quantize the model to 4-bits (using Q4_K_M method): `./quantize ./PhoGPT-4B-Chat.gguf ./PhoGPT-4B-Chat-Q4_K_M.gguf Q4_K_M`
+- Start inference on a gguf model: `./main -m ./PhoGPT-4B-Chat-Q4_K_M.gguf -n 128 -p "### Câu hỏi: Bạn là ai\n### Trả lời:"`
 
 ### With pure `transformers`
 
@@ -57,7 +57,7 @@ python3 -m pip install -r requirements.txt
 import torch
 from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
-model_path = "vinai/PhoGPT-4B-Chat-v0.1"  
+model_path = "vinai/PhoGPT-4B-Chat"  
 
 config = AutoConfig.from_pretrained(model_path, trust_remote_code=True)  
 config.init_device = "cuda"
@@ -111,7 +111,7 @@ messages = [
 ]
 
 # Using apply_chat_template
-tokenizer = AutoTokenizer.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", trust_remote_code=True)
+tokenizer = AutoTokenizer.from_pretrained("vinai/PhoGPT-4B-Chat", trust_remote_code=True)
 input_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
 ```
 
@@ -121,15 +121,15 @@ input_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_gener
 import torch
 from transformers import BitsAndBytesConfig, AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
-config = AutoConfig.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", trust_remote_code=True)  
+config = AutoConfig.from_pretrained("vinai/PhoGPT-4B-Chat", trust_remote_code=True)  
 config.init_device = "cuda"
 
 # 4-bit quantization
 quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
-model_4bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", quantization_config=quantization_config, config=config, trust_remote_code=True)
+model_4bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat", quantization_config=quantization_config, config=config, trust_remote_code=True)
 
 # 8-bit quantization
-model_8bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat-v0.1", config=config, load_in_8bit=True)
+model_8bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat", config=config, load_in_8bit=True)
 ```
 
 ## Fine-tuning the model <a name="finetuning"></a>
