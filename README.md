@@ -61,6 +61,7 @@ model_path = "vinai/PhoGPT-4B-Chat"
 
 config = AutoConfig.from_pretrained(model_path, trust_remote_code=True)  
 config.init_device = "cuda"
+# config.attn_config['attn_impl'] = 'flash' # If installed: this will use either Flash Attention V1 or V2 depending on what is installed
 
 model = AutoModelForCausalLM.from_pretrained(model_path, config=config, torch_dtype=torch.bfloat16, trust_remote_code=True)
 # If your GPU does not support bfloat16:
