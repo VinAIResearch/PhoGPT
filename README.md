@@ -7,10 +7,11 @@
 # PhoGPT: Generative Pre-training for Vietnamese <a name="introduction"></a>
 
 
-We open-source a state-of-the-art 4B-parameter generative model series for Vietnamese, which includes the base pre-trained monolingual model PhoGPT-4B and its chat variant, PhoGPT-4B-Chat. The base model, PhoGPT-4B, with exactly 3.7B parameters, is pre-trained from scratch on a Vietnamese corpus of 102B tokens, with an 8192 context length, employing a vocabulary of 20K token types. The chat variant, PhoGPT-4B-Chat, is the modeling output obtained by fine-tuning PhoGPT-4B on a dataset of 70K instructional prompts and their responses, along with an additional 290K conversations. We demonstrate its strong performance compared to previous closed-source and open-source 7B-parameter models. 
+We open-source a state-of-the-art 4B-parameter generative model series for Vietnamese, which includes the base pre-trained monolingual model PhoGPT-4B and its chat variant, PhoGPT-4B-Chat. The base model, PhoGPT-4B, with exactly 3.7B parameters, is pre-trained from scratch on a Vietnamese corpus of 102B tokens, with an 8192 context length, employing a vocabulary of 20K token types. The chat variant, PhoGPT-4B-Chat, is the modeling output obtained by fine-tuning PhoGPT-4B on a dataset of 70K instructional prompts and their responses, along with an additional 290K conversations. We demonstrate its superior performance compared to previous open-source models. 
 
+<img width="500" alt="Vietnamese truthful QA results" src="https://github.com/VinAIResearch/PhoGPT/assets/2412555/29e49e07-2673-47ee-bcc6-e4222eeb0bf6">
 
-More details about the general architecture and experimental results of PhoGPT can be found in our [technical report](https://arxiv.org/abs/2311.02945). All output responses of PhoGPT and baselines are available [HERE](https://docs.google.com/spreadsheets/d/1R228Fnrwo4d2PSEJlgHdr9Q49zWWvz3k7pflw0pNTpo/edit?usp=sharing) for readers' self-evaluation. **Please CITE** our technical report when PhoGPT is used to help produce published results or is incorporated into other software:
+More details about the general architecture and experimental results of PhoGPT can be found in our [technical report](https://arxiv.org/abs/2311.02945). All output responses of PhoGPT and baselines are available [HERE](https://docs.google.com/spreadsheets/d/1H9PvaItWIVnZw6gBHq83mWDp_P4DzMcYYbVDVv85yE8/edit?usp=sharing) for readers' self-evaluation. **Please CITE** our technical report when PhoGPT is used to help produce published results or is incorporated into other software:
 
 ```
 @article{PhoGPT,
@@ -27,7 +28,7 @@ year      = {2023}
 
 Model | Type | Model Size | Context length | Vocab size | Training data size | Note
 ---|--|---|---|---|---|---
-[`vinai/PhoGPT-4B`](https://huggingface.co/vinai/PhoGPT-4B) | Base | 3.7B | 8192 | 20K | 482GB of texts | Loading "PhoGPT-4B" or "PhoGPT-4B-Chat" in float16 takes 7GB of GPU memory
+[`vinai/PhoGPT-4B`](https://huggingface.co/vinai/PhoGPT-4B) | Base | 3.7B | 8192 | 20K | 2 training epochs on 482GB of texts | Loading "PhoGPT-4B" or "PhoGPT-4B-Chat" in float16 takes 7GB of GPU memory
 [`vinai/PhoGPT-4B-Chat`](https://huggingface.co/vinai/PhoGPT-4B-Chat) |Instruction following & Chat|3.7B| 8192| 20K |70K instructional prompt and response pairs & 290K conversations| `PROMPT_TEMPLATE = "### Câu hỏi: {instruction}\n### Trả lời:"`  
 
 ## Run the model <a name="inference"></a>
@@ -139,6 +140,8 @@ See [llm-foundry docs](https://github.com/mosaicml/llm-foundry/blob/main/scripts
 
 - To install `llm-foundry`, see Section "Installation" in [https://github.com/mosaicml/llm-foundry](https://github.com/mosaicml/llm-foundry).
 - Run: `cd llm-foundry/scripts/train/` and then `composer --world_size <number_of_GPUs> train.py <path_to_yaml_configuration_file>` (e.g. `composer --world_size 1 train.py fine-tuning-phogpt.yaml`). 
+
+Other fine-tuning options may include the use of [transformers](https://github.com/huggingface/transformers)'s Trainer (e.g. see [stanford_alpaca](https://github.com/tatsu-lab/stanford_alpaca) as an example), [lit-gpt](https://github.com/Lightning-AI/litgpt) or [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory).
 
 ## Limitations <a name="limitations"></a>
 
