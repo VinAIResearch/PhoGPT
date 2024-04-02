@@ -47,7 +47,12 @@ python3 -m pip install -r requirements.txt
 ```
 - Convert the model to gguf FP16 format: `python3 convert-hf-to-gguf.py <path_to_PhoGPT-4B-Chat_model> --outfile ./PhoGPT-4B-Chat.gguf`
 - (Optional) Quantize the model to 4-bits (using Q4_K_M method): `./quantize ./PhoGPT-4B-Chat.gguf ./PhoGPT-4B-Chat-Q4_K_M.gguf Q4_K_M`
-- Start inference on a gguf model: `./main -m ./PhoGPT-4B-Chat-Q4_K_M.gguf -n 128 -p "### Câu hỏi: Bạn là ai\n### Trả lời:"`
+- Start inference on a gguf model: `./main -m ./PhoGPT-4B-Chat-Q4_K_M.gguf -n 1024 -p "### Câu hỏi: Viết bài văn nghị luận xã hội về an toàn giao thông\n### Trả lời:"`
+
+Converted gguf files are available at: **[vinai/PhoGPT-4B-Chat-gguf](https://huggingface.co/vinai/PhoGPT-4B-Chat-gguf)**
+
+<!--- Update the gguf filetype to current version if older version is now unsupported: `./quantize /path/to/PhoGPT-4B-Chat.gguf /path/to/PhoGPT-4B-Chat-v2.gguf COPY`-->
+
 
 ### With pure `transformers`
 
