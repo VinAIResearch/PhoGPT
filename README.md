@@ -49,7 +49,7 @@ python3 -m pip install -r requirements.txt
 - (Optional) Quantize the model to 4-bits (using Q4_K_M method): `./quantize ./PhoGPT-4B-Chat.gguf ./PhoGPT-4B-Chat-Q4_K_M.gguf Q4_K_M`
 - Start inference on a gguf model: `./main -m ./PhoGPT-4B-Chat-Q4_K_M.gguf -n 1024 -p "### Câu hỏi: Viết bài văn nghị luận xã hội về an toàn giao thông\n### Trả lời:"`
 
-Converted gguf files are available at: **[vinai/PhoGPT-4B-Chat-gguf](https://huggingface.co/vinai/PhoGPT-4B-Chat-gguf)**
+Converted gguf files are available at: **[vinai/PhoGPT-4B-Chat-gguf](https://huggingface.co/vinai/PhoGPT-4B-Chat-gguf)**. Note that the config file [phogpt_lmstudio_config.json](https://huggingface.co/vinai/PhoGPT-4B-Chat-gguf/blob/main/phogpt_lmstudio_config.json) might be needed for LM Studio to work properly with our gguf files. 
 
 <!--- Update the gguf filetype to current version if older version is now unsupported: `./quantize /path/to/PhoGPT-4B-Chat.gguf /path/to/PhoGPT-4B-Chat-v2.gguf COPY`-->
 
@@ -122,7 +122,7 @@ tokenizer = AutoTokenizer.from_pretrained("vinai/PhoGPT-4B-Chat", trust_remote_c
 input_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
 ```
 
-#### 4/8-bit quantization with `bitsandbytes`
+#### quantization with `bitsandbytes`
 
 ```python
 import torch
@@ -130,10 +130,6 @@ from transformers import BitsAndBytesConfig, AutoConfig, AutoModelForCausalLM, A
 
 config = AutoConfig.from_pretrained("vinai/PhoGPT-4B-Chat", trust_remote_code=True)  
 config.init_device = "cuda"
-
-# 4-bit quantization
-quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.float16)
-model_4bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat", quantization_config=quantization_config, config=config, trust_remote_code=True)
 
 # 8-bit quantization
 model_8bit = AutoModelForCausalLM.from_pretrained("vinai/PhoGPT-4B-Chat", config=config, load_in_8bit=True)
